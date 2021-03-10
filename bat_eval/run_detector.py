@@ -8,14 +8,24 @@ import sys
 import write_op as wo
 import cpu_detection as detector
 import mywavfile
+from pathlib import Path
 
+sample_size=1000
 
-def get_audio_files(ip_dir):
+def get_audio_files(ip_dir, sample_size):
     matches = []
-    for root, dirnames, filenames in os.walk(ip_dir):
-        for filename in filenames:
-            if filename.lower().endswith('.wav'):
-                matches.append(os.path.join(root, filename))
+    # for root, dirnames, filenames in os.walk(ip_dir):
+    #     for filename in filenames:
+    #         if filename.lower().endswith('.wav'):
+    #             matches.append(os.path.join(root, filename))
+
+    # To make the selction consitent with preprocessing stage of bats spectrograms, the following is added:
+    iterator=0
+    for path in (Path(ip_dir).rglob('*.wav')):
+        matches.append(str(path))
+        iterator=iterator+1
+        if (iterator>=sample_size):
+		    break
     return matches
 
 
@@ -92,6 +102,7 @@ if __name__ == "__main__":
     save_summary_result = True     # if True will create a single csv file with all results
 
     # load data
+    sample_size=2                                  # Number of files to read
     data_dir = '/home/rabi/Documents/Thesis/batdetect/bat_eval/wavs'                                   # this is the path to your audio files
     op_ann_dir = '/home/rabi/Documents/Thesis/batdetect/bat_eval/results'                              # this where your results will be saved
     op_ann_dir_ind = os.path.join(op_ann_dir, 'individual_results')  # this where individual results will be saved
@@ -102,7 +113,7 @@ if __name__ == "__main__":
         os.makedirs(op_ann_dir_ind)
 
     # read audio files
-    audio_files = get_audio_files(data_dir)
+    audio_files = get_audio_files(data_dir, sample_size)
 
     print('Processing        ', len(audio_files), 'files')
     print('Input directory   ', data_dir)
