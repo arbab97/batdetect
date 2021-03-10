@@ -10,7 +10,6 @@ import cpu_detection as detector
 import mywavfile
 from pathlib import Path
 
-sample_size=1000
 
 def get_audio_files(ip_dir, sample_size):
     matches = []
@@ -96,14 +95,14 @@ def run_model(det, audio, file_dur, samp_rate, detection_thresh, max_num_calls=0
 if __name__ == "__main__":
 
     # params
-    detection_thresh = 0.97      # make this smaller if you want more calls
+    detection_thresh = 0.95      # make this smaller if you want more calls
     do_time_expansion = True       # if audio is already time expanded set this to False
-    save_individual_results = True # if True will create an output for each file
+    save_individual_results = False # if True will create an output for each file
     save_summary_result = True     # if True will create a single csv file with all results
 
     # load data
-    sample_size=2                                  # Number of files to read
-    data_dir = '/home/rabi/Documents/Thesis/batdetect/bat_eval/wavs'                                   # this is the path to your audio files
+    sample_size=1000                             # Number of files to read
+    data_dir = '/media/rabi/Data/ThesisData/Bats audio records'                                   # this is the path to your audio files
     op_ann_dir = '/home/rabi/Documents/Thesis/batdetect/bat_eval/results'                              # this where your results will be saved
     op_ann_dir_ind = os.path.join(op_ann_dir, 'individual_results')  # this where individual results will be saved
     op_file_name_total = os.path.join(op_ann_dir, 'results.csv')
