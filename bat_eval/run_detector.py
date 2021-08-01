@@ -20,7 +20,7 @@ def get_audio_files(ip_dir, sample_size):
 
     # To make the selction consitent with preprocessing stage of bats spectrograms, the following is added:
     iterator=0
-    for path in (Path(ip_dir).rglob('*.wav')):
+    for path in (Path(ip_dir).rglob('*_D1000.WAV')):  #change this back to  '*.wav' 
         matches.append(str(path))
         iterator=iterator+1
         if (iterator>=sample_size):
@@ -96,17 +96,17 @@ def run_model(det, audio, file_dur, samp_rate, detection_thresh, max_num_calls=0
 if __name__ == "__main__":
 
     # params
-    detection_thresh = 0.95      # make this smaller if you want more calls
+    detection_thresh = 0.90      # make this smaller if you want more calls
     do_time_expansion = True# (default: True)       # if audio is already time expanded set this to False
     save_individual_results = False # if True will create an output for each file
     save_summary_result = True     # if True will create a single csv file with all results
 
     # load data
     sample_size= float('inf')                             # Number of files to read
-    data_dir = '/media/rabi/Data/ThesisData/Bats audio records'                                   # this is the path to your audio files
-    op_ann_dir = '/media/rabi/Data/ThesisData/audio data analysis/audio-clustering/plots_26april'                              # this where your results will be saved
+    data_dir = '/media/rabi/Data/ThesisData/audio data analysis/specie-clustering/Identified calls/all_specie'                                   # this is the path to your audio files
+    op_ann_dir = '/media/rabi/Data/ThesisData/audio data analysis/specie-clustering/Identified calls/all_specie'                              # this where your results will be saved
     op_ann_dir_ind = os.path.join(op_ann_dir, 'individual_results')  # this where individual results will be saved
-    op_file_name_total = os.path.join(op_ann_dir, 'batdetect_26april.csv')
+    op_file_name_total = os.path.join(op_ann_dir, 'batdetect_25july.csv')
     if not os.path.isdir(op_ann_dir):
         os.makedirs(op_ann_dir)
     if save_individual_results and not os.path.isdir(op_ann_dir_ind):
